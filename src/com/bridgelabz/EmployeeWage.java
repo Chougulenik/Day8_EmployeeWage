@@ -5,23 +5,21 @@ public class EmployeeWage {
     static final int PART_TIME= 4;
     static final int WAGE_PER_HRS =20;
     static final int WORKING_DAY =20;
-	public static void main(String[] args) {
-		System.out.println("Welcome to Employee Wage Computation");
+    public static void employeeAttendance() {
 		 int empHrs = 0;
          int monthlyWage = 0;
          int days=1;
          int hours=0;
         while(days<=20 && hours<100) {
-       	   
-        int empCheck = (int)Math.floor(Math.random() *10) % 3;
-        int remaining_Hours=100-hours;
-		 if(remaining_Hours%8<1) {
-			System.out.println(" Employee is present for part time");
-			int partialDailyWage=PART_TIME * WAGE_PER_HRS;
-			System.out.println("Daily Wage :Rs."+partialDailyWage);
-			monthlyWage=monthlyWage+partialDailyWage;
-			hours=hours+PART_TIME;
-		}
+        	int empCheck = (int)Math.floor(Math.random() *10) % 3;
+        	int remaining_Hours=100-hours;
+        	if(remaining_Hours%8<1) {
+        		System.out.println(" Employee is present for part time");
+        		int partialDailyWage=PART_TIME * WAGE_PER_HRS;
+        		System.out.println("Daily Wage :Rs."+partialDailyWage);
+        		monthlyWage=monthlyWage+partialDailyWage;
+        		hours=hours+PART_TIME;
+        	}
         switch (empCheck) {
         case 1 :
                System.out.println("Employee is Full time presnt");
@@ -45,6 +43,10 @@ public class EmployeeWage {
      System.out.println("Monthly Wage : " + monthlyWage);
      System.out.println("Total Hours  : "+hours);
      System.out.println("Total days  : "+ days);
+    }
+    public static void main(String[] args) {
+		System.out.println("Welcome to Employee Wage Computation");
+		EmployeeWage.employeeAttendance();
 	}
 
 }
