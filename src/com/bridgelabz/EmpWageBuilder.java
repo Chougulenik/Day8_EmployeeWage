@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class EmpWageBuilder {
 	
-	private ArrayList<EmployeeWage> companyList = new ArrayList<EmployeeWage>();
+	 static ArrayList<Company> companyList = new ArrayList<Company>();
 	 
-	 void showInfo(EmployeeWage EmployeeWage) {
-		 System.out.println("Company name: "+EmployeeWage.name);
-		 System.out.println("Total Wage :"+EmployeeWage.monthlyWage);
+	 void showInfo(Company company) {
+		 System.out.println("Company name: "+company.name);
+		 System.out.println("Total Wage :"+company.monthlyWage);
 	 }
 	 
-	 void addCompany(EmployeeWage EmployeeWage) {
-		 companyList.add(EmployeeWage);
-	 }
+	 void addCompany(Company company) {
+		 companyList.add(company);
 
+	 }
 }
