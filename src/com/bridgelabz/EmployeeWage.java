@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import java.util.Random;
+
 public class EmployeeWage {
 	static final int FULL_TIME= 8;
     static final int PART_TIME= 4;
@@ -7,14 +9,19 @@ public class EmployeeWage {
     int workingDay;
     int maxworkingHrs;
     String name;
-    //static int empCheck = (int)Math.floor(Math.random() *10) % 3;
+    int monthlyWage;
     
-    public EmployeeWage(String name, int wagePerHrs, int workingDay, int maxworkingHrs) {
+    void companyMonthlyWage(int monthlyWage) {
+ 	   this.monthlyWage=monthlyWage;
+    }
+    
+    public EmployeeWage(String name, int wagePerHrs, int workingDay, int maxworkingHrs, int monthlyWage) {
 		super();
 		this.wagePerHrs = wagePerHrs;
 		this.workingDay = workingDay;
 		this.maxworkingHrs = maxworkingHrs;
 		this.name = name;
+		this.monthlyWage = monthlyWage;
 	}
 
 	public void employeeAttendance() {
@@ -33,6 +40,8 @@ public class EmployeeWage {
          		monthlyWage=monthlyWage+partialDailyWage;
          		hours=hours+PART_TIME;
          	}
+         	days ++;
+         	
          
         
         switch (empCheck) {
@@ -41,7 +50,7 @@ public class EmployeeWage {
                int dailyWage = FULL_TIME * wagePerHrs;
                System.out.println("Daily wage : "+dailyWage);
                monthlyWage = monthlyWage + dailyWage;
-               hours=hours+FULL_TIME;
+               hours = hours + FULL_TIME;
                break;
         case 2 :
                System.out.println("Employee is Part time presnt");
@@ -54,6 +63,7 @@ public class EmployeeWage {
                 System.out.println("Employee not present");
         }  
      } 
+         
     
      System.out.println("Monthly Wage : " + monthlyWage);
      System.out.println("Total Hours  : "+hours);
@@ -61,13 +71,24 @@ public class EmployeeWage {
      System.out.println("-------------------------------------");
          
 }
-
-    public static void main(String[] args) {
+   
+	public static void main(String[] args) {
 		System.out.println("Welcome to Employee Wage Computation");
-		EmployeeWage emp1 = new EmployeeWage("IBM", 40, 20, 200);
+		
+		EmployeeWage emp1 = new EmployeeWage("IBM", 40, 20, 200, 30);
 		emp1.employeeAttendance();
-		EmployeeWage emp2 = new EmployeeWage("HCL", 40, 20, 200);
+		EmployeeWage emp2 = new EmployeeWage("HCL", 40, 20, 200, 40);
 		emp2.employeeAttendance();
+		
+		EmpWageBuilder empBuilder = new EmpWageBuilder();
+		
+		empBuilder.showInfo(emp1);
+		empBuilder.addCompany(emp1);
+		
+		empBuilder.showInfo(emp2);
+		empBuilder.addCompany(emp2);
+		
+		
 	}
 
 }
