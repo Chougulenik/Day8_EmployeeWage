@@ -1,92 +1,97 @@
 package com.bridgelabz;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class EmployeeWage {
-	static final int FULL_TIME= 8;
-    static final int PART_TIME= 4;
-    int wagePerHrs;
-    int workingDay;
-    int maxworkingHrs;
-    String name;
-    int monthlyWage;
-    
-    void companyMonthlyWage(int monthlyWage) {
- 	   this.monthlyWage=monthlyWage;
-    }
-    
-    public EmployeeWage(String name, int wagePerHrs, int workingDay, int maxworkingHrs, int monthlyWage) {
-		super();
-		this.wagePerHrs = wagePerHrs;
-		this.workingDay = workingDay;
-		this.maxworkingHrs = maxworkingHrs;
-		this.name = name;
-		this.monthlyWage = monthlyWage;
-	}
+	static final int FULL_TIME = 8;
+    static final int PART_TIME = 4;
+    static int days = 0;
+	static int hours = 0;
+	static int monthlyWage = 0;
+	
+	int checkAttendance(int randInt) {
+		switch (randInt) {
+		case 1:
+			System.out.println("Full Time Employee is present");
+			return FULL_TIME;
 
-	public void employeeAttendance() {
-		 int empHrs = 0;
-         int monthlyWage = 0;
-         int days = 1;
-         int hours = 0;
-         System.out.println("Company name : "+ name);
-         while(days < workingDay && hours < maxworkingHrs) {
-         	int empCheck = (int)Math.floor(Math.random() *10) % 3;
-         	int remaining_Hours=100-hours;
-         	if(remaining_Hours%8<1) {
-         		System.out.println(" Employee is present for part time");
-         		int partialDailyWage = PART_TIME * wagePerHrs;
-         		System.out.println("Daily Wage :Rs."+partialDailyWage);
-         		monthlyWage=monthlyWage+partialDailyWage;
-         		hours=hours+PART_TIME;
-         	}
-         	days ++;
-         	
-         
-        
-        switch (empCheck) {
-        case 1 :
-               System.out.println("Employee is Full time presnt");
-               int dailyWage = FULL_TIME * wagePerHrs;
-               System.out.println("Daily wage : "+dailyWage);
-               monthlyWage = monthlyWage + dailyWage;
-               hours = hours + FULL_TIME;
-               break;
-        case 2 :
-               System.out.println("Employee is Part time presnt");
-               int dailyWage_par = PART_TIME * wagePerHrs;
-               System.out.println("Daily wage : "+ dailyWage_par);
-               monthlyWage = monthlyWage + dailyWage_par;
-               hours = hours+PART_TIME;
-               break;
-        default :
-                System.out.println("Employee not present");
-        }  
-     } 
-         
-    
-     System.out.println("Monthly Wage : " + monthlyWage);
-     System.out.println("Total Hours  : "+hours);
-     System.out.println("day  : "+ days);
-     System.out.println("-------------------------------------");
-         
-}
+		case 2:
+			System.out.println("Part Time Employee is present");
+			return PART_TIME;
+		default:
+			System.out.println("Employee is absent");
+			return 0;
+		}
+
+	}
+	
+	int calculateWage(int randInt,Company company) {
+		int dailyWage = 0;
+		switch (randInt) {
+		case 1:
+			dailyWage = FULL_TIME * company.wagePerHrs;
+			return dailyWage;
+
+		case 2:
+			dailyWage = PART_TIME * company.wagePerHrs;
+			return dailyWage;
+		default:
+			return dailyWage;
+		}
+	}
+	
+	int calculateMonthlyWage(EmployeeWage employee, Company company) {
+		Random randomInt = new Random();
+
+		while (days < company.workingDays && hours <= company.workingHoursMonthly) {
+			int randInt = randomInt.nextInt(3);
+			hours = hours + employee.checkAttendance(randInt);
+			if (hours > company.workingHoursMonthly) {
+				hours = company.workingHoursMonthly;
+				monthlyWage = monthlyWage + employee.calculateWage(randInt,company) - company.wagePerHrs * PART_TIME;
+				break;
+			} 
+			else {
+				monthlyWage = monthlyWage + employee.calculateWage(randInt,company);
+			}
+			days += 1;
+			if(employee.checkAttendance(randInt) == 0) {
+				days-=1;
+			}
+		}
+		//System.out.println("The name of company is "+ company.name);
+		//System.out.println("The monthly wage of the employee is Rs. " + monthlyWage);
+		System.out.println("Total days the employee worked is " + days + " days");
+		System.out.println("Total hours the employee Worked is " + hours + " hours");
+		return monthlyWage;
+
+	}
    
 	public static void main(String[] args) {
-		System.out.println("Welcome to Employee Wage Computation");
 		
-		EmployeeWage emp1 = new EmployeeWage("IBM", 40, 20, 200, 30);
-		emp1.employeeAttendance();
-		EmployeeWage emp2 = new EmployeeWage("HCL", 40, 20, 200, 40);
-		emp2.employeeAttendance();
+		Scanner input = new Scanner(System.in);
+		System.out.println("Welcome to Employee wage computation");
+       
+		EmployeeWage employee = new EmployeeWage();
+		Company company = new Company();
+	    EmpWageBuilder empWageBuilder=new EmpWageBuilder();
 		
-		EmpWageBuilder empBuilder = new EmpWageBuilder();
+	    System.out.println("Enter the name of the company :");
+		String name = input.nextLine();
+		System.out.println("Enter wage per hour :");
+		int wagePerHour = input.nextInt();
+		System.out.println("Enter the total working days: ");
+		int workingDays = input.nextInt();
+		System.out.println("Enter total monthly working hours :");
+		int workingHoursMonthly = input.nextInt();
 		
-		empBuilder.showInfo(emp1);
-		empBuilder.addCompany(emp1);
+		company.setInfo(name, wagePerHour, workingDays, workingHoursMonthly);
+		int monthlyWage = employee.calculateMonthlyWage(employee,company);
+		company.companyMonthlyWage(monthlyWage);
 		
-		empBuilder.showInfo(emp2);
-		empBuilder.addCompany(emp2);
+		empWageBuilder.showInfo(company);
+		empWageBuilder.addCompany(company);
 		
 		
 	}
