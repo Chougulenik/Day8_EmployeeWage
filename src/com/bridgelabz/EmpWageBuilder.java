@@ -2,17 +2,24 @@ package com.bridgelabz;
 
 import java.util.ArrayList;
 
-public class EmpWageBuilder {
+interface CompanyCollection {
+	
+	void showInfo(Company company);
+	void addCompany(Company company);
+}
+
+public class EmpWageBuilder implements CompanyCollection {
 	
 	 static ArrayList<Company> companyList = new ArrayList<Company>();
 	 
-	 void showInfo(Company company) {
+	 public void showInfo(Company company) {
 		 System.out.println("Company name: "+company.name);
 		 System.out.println("Total Wage :"+company.monthlyWage);
 	 }
 	 
-	 void addCompany(Company company) {
+	 public void addCompany(Company company) {
 		 companyList.add(company);
 
 	 }
+
 }
