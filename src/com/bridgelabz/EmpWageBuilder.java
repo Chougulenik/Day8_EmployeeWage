@@ -10,16 +10,29 @@ interface CompanyCollection {
 
 public class EmpWageBuilder implements CompanyCollection {
 	
-	 static ArrayList<Company> companyList = new ArrayList<Company>();
-	 
-	 public void showInfo(Company company) {
-		 System.out.println("Company name: "+company.name);
-		 System.out.println("Total Wage :"+company.monthlyWage);
-	 }
-	 
-	 public void addCompany(Company company) {
-		 companyList.add(company);
+	static ArrayList<Company> listOfCompany = new ArrayList<Company>();
+	
+	@Override
+	public void showInfo(Company company) {
+		System.out.println("Company name: " + company.name);
+		System.out.println("Total Wage :" + company.monthlyWage);
+	}
+	
+	@Override
+	public void addCompany(Company company) {
+		for (Company elements : listOfCompany) {
+			if (elements.name.equals(company.name)) {
+				listOfCompany.remove(elements);
+			}
+		}
+	}
 
-	 }
+	public void totalWage(String name) {
+		for (Company elements : listOfCompany) {
+			if (elements.name.equals(name)) {
+				System.out.println("Total Wage of company :" + elements.monthlyWage);
+			}
+		}
+	}
 
 }

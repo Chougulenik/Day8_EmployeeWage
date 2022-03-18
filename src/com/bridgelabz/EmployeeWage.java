@@ -92,6 +92,7 @@ public class EmployeeWage {
 		
 		empWageBuilder.showInfo(company);
 		empWageBuilder.addCompany(company);
+		empWageBuilder.totalWage(name);
 		
 		
 	}
